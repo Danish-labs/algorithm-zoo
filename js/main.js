@@ -158,9 +158,10 @@ function openExhibit(config) {
   const exhibit = new Exhibit(config, { wingColor: new THREE.Color(wing.color), origin });
   scene.add(exhibit.group);
   active = { exhibit, config, wing };
-    const url = new URL(window.location.href);
+  const url = new URL(window.location.href);
   url.searchParams.set("exhibit", config.id);
   history.replaceState(null, "", url);
+  ui.copyFeedback.textContent = "";
 
   // camera: stand back proportionally to exhibit size, slightly outside the ring
   const r = exhibit.boundingRadius();
@@ -195,6 +196,7 @@ function closeExhibit() {
   if (!active) return;
   active.exhibit.dispose();
   active = null;
+  ui.copyFeedback.textContent = "";
   ui.placard.hidden = true;
   ui.playbar.hidden = true;
   document.querySelectorAll(".exhibit-btn").forEach((b) => b.classList.remove("active"));
